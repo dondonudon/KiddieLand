@@ -1,0 +1,1 @@
+<script async defer src="https://maps.googleapis.com/maps/api/js?key={{ config('app.google_map_api') }}&libraries=places&callback=initMap"></script>
