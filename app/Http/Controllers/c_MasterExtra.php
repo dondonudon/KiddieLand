@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\master_kelas;
+use App\master_extrakurikuler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class c_MasterKelas extends Controller
+class c_MasterExtra extends Controller
 {
  public function index()
  {
-  return view('dashboard.master-data.kelas.baru');
+  return view('dashboard.master-data.extra.baru');
  }
 
  function list() {
-  return view('dashboard.master-data.kelas.list');
+  return view('dashboard.master-data.extra.list');
  }
 
  public function data(Request $request)
@@ -30,8 +30,8 @@ class c_MasterKelas extends Controller
     ];
    }
   }
-  return DB::table('master_kelas')
-   ->select('id', 'kelas', 'nama', 'adm_fee', 'spp', 'mc', 'ket')
+  return DB::table('master_extrakurikuler')
+   ->select('id', 'nama', 'tipe', 'biaya', 'ket')
   // ->join('ms_koridor','ms_bus.id_koridor','=','ms_koridor.id')
    ->where($data['where'])
    ->paginate(8);
@@ -39,45 +39,39 @@ class c_MasterKelas extends Controller
 
  public function edit($id)
  {
-  $data = DB::table('master_kelas')
-   ->select('id', 'kelas', 'nama', 'adm_fee', 'spp', 'mc', 'ket')
+  $data = DB::table('master_extrakurikuler')
+   ->select('id', 'nama', 'tipe', 'biaya', 'ket')
   // ->join('ms_koridor','ms_bus.id_koridor','=','ms_koridor.id')
-   ->where('master_kelas.id', '=', $id)
+   ->where('master_extrakurikuler.id', '=', $id)
    ->first();
-  return view('dashboard.master-data.kelas.edit')->with('data', $data);
+  return view('dashboard.master-data.extra.edit')->with('data', $data);
  }
 
  public function submit(Request $request)
  {
-  $type    = $request->type;
-  $kelas   = $request->kelas;
-  $nama    = $request->nama;
-  $adm_fee = $request->adm_fee;
-  $spp     = $request->spp;
-  $mc      = $request->mc;
-  $ket     = $request->ket;
+  $type  = $request->type;
+  $nama  = $request->nama;
+  $tipe  = $request->tipe;
+  $biaya = $request->biaya;
+  $ket   = $request->ket;
 
   try {
    DB::beginTransaction();
    if ($type == 'baru') {
-    $master_kelas          = new master_kelas();
-    $master_kelas->kelas   = $kelas;
-    $master_kelas->nama    = $nama;
-    $master_kelas->adm_fee = $adm_fee;
-    $master_kelas->spp     = $spp;
-    $master_kelas->mc      = $mc;
-    $master_kelas->ket     = $ket;
-    $master_kelas->save();
+    $master_extrakurikuler        = new master_extrakurikuler();
+    $master_extrakurikuler->nama  = $nama;
+    $master_extrakurikuler->tipe  = $tipe;
+    $master_extrakurikuler->biaya = $biaya;
+    $master_extrakurikuler->ket   = $ket;
+    $master_extrakurikuler->save();
    } elseif ($type == 'edit') {
-    DB::table('master_kelas')
+    DB::table('master_extrakurikuler')
      ->where('id', '=', $request->id)
      ->update([
-      'kelas'   => $kelas,
-      'nama'    => $nama,
-      'adm_fee' => $adm_fee,
-      'spp'     => $spp,
-      'mc'      => $mc,
-      'ket'     => $ket,
+      'nama'  => $nama,
+      'tipe'  => $tipe,
+      'biaya' => $biaya,
+      'ket'   => $ket,
      ]);
    }
    DB::commit();

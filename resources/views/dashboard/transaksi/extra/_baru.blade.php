@@ -59,9 +59,8 @@
                                 <script type="text/javascript">
                                     function move(id){
                                         var val = $("#list-"+id).html();
-                                        var nama = $("#nama-"+id).html();
                                         $("#tr-"+id).remove();
-                                        $('#displayTo').append('<tr id="trb-'+id+'" style="cursor: pointer;"><td id="listb-'+id+'">'+val+'</td><td id="nama-'+id+'">'+nama+'</td><input type="hidden" name="kode_siswa[]" id="kode_siswa-'+id+'" value="'+val+'#1"><td><select id="opt-'+id+'"><option value="1">Lunas</option><option value="2">Bulanan</option><option value="3">Triwulan</option></select></td><td><button type="button" onclick="back('+id+');"> < </button></td></tr>')
+                                        $('#displayTo').append('<tr id="trb-'+id+'" style="cursor: pointer;"><td id="listb-'+id+'">'+val+'</td><input type="hidden" name="kode_siswa[]" id="kode_siswa-'+id+'" value="'+val+'#1"><td><select id="opt-'+id+'"><option value="1">Lunas</option><option value="2">Bulanan</option><option value="3">Triwulan</option></select></td><td><button type="button" onclick="back('+id+');"> < </button></td></tr>')
                                         $("#opt-"+id).change(function(event){
                                             var opt = $("#opt-"+id).val();
                                             $("#kode_siswa-"+id).val(val+'#'+opt);
@@ -70,9 +69,8 @@
 
                                     function back(id){
                                         var val = $("#listb-"+id).html();
-                                        var nama = $("#nama-"+id).html();
                                         $("#trb-"+id).remove();
-                                        $('#display').append('<tr id="tr-'+id+'" style="cursor: pointer;"><td id="listb-'+id+'">'+val+'</td><td id="list-'+id+'">'+nama+'</td><td><button type="button" onclick="move('+id+');"> > </button></td></tr>')
+                                        $('#display').append('<tr id="tr-'+id+'" style="cursor: pointer;"><td id="list-'+id+'">'+val+'</td><td><button type="button" onclick="move('+id+');"> > </button></td></tr>')
                                     }
                                 </script>
                                 <div class="form-group">
@@ -85,7 +83,6 @@
                                             <table class="table table-striped mb-0">
                                             <thead>
                                                 <tr>
-                                                    <th>Kode</th>
                                                     <th colspan="2">Nama</th>
                                                 </tr>
                                             </thead>
@@ -93,8 +90,7 @@
                                                 <?php  $no = 1; ?>
                                                 @foreach ($data as $item)
                                                 <tr id="tr-{{$no}}" style="cursor: pointer;">
-                                                <td id="list-{{$no}}">{{ $item->kode_siswa }}</td>
-                                                <td id="nama-{{$no}}">{{ $item->nama }}</td>
+                                                <td id="list-{{$no}}">{{ $item->nama }}</td>
                                                 <td><button type="button" onclick="move({{$no}});"> > </button></td>
                                                 </tr>
                                                 <?php $no++; ?>
@@ -117,7 +113,6 @@
                                             <table class="table table-striped mb-0">
                                             <thead>
                                                 <tr>
-                                                    <th>Kode</th>
                                                     <th>Nama</th>
                                                     <th>Option</th>
                                                     <th></th>
@@ -151,11 +146,11 @@
                         <button type="submit" class="btn btn-block btn-success"><i class="fas fa-check mr-2"></i>Simpan</button>
                     </form> --}}
                     <script>
-                        // var demo1 = $('select[name="kode_siswa[]"]').bootstrapDualListbox();
-                        // $("#demoform").submit(function() {
-                        //     alert($('[name="kode_siswa[]"]').val());
-                        //     return false;
-                        // });
+                        var demo1 = $('select[name="kode_siswa[]"]').bootstrapDualListbox();
+                        $("#demoform").submit(function() {
+                            alert($('[name="kode_siswa[]"]').val());
+                            return false;
+                        });
                     </script>
                 </div>
             </div>

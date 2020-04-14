@@ -54,7 +54,7 @@
                             </div> -->
                             <div class="col-sm-12 col-lg-2 mt-2 mt-lg-0">
                                 <button type="button" id="btnEdit" class="btn btn-block btn-danger" disabled>
-                                    <i class="fas fa-pencil-alt mr-2"></i>Detail
+                                    <i class="fas fa-pencil-alt mr-2"></i>Edit
                                 </button>
                             </div>
                         </div>
@@ -78,7 +78,7 @@
             }).then((result) => {
                 if (result.value) {
                     $.ajax({
-                        url: '{{ url('dashboard/transaksi/kelas') }}/'+status,
+                        url: '{{ url('dashboard/transaksi/extrakurikuler') }}/'+status,
                         method: 'post',
                         data: data,
                         success: function (response) {
@@ -129,7 +129,7 @@
                 placeholder: 'No Data Available',
                 pagination: "remote",
                 ajaxFiltering: true,
-                ajaxURL: "{{ url('dashboard/transaksi/kelas/data') }}",
+                ajaxURL: "{{ url('dashboard/transaksi/extrakurikuler/data') }}",
                 ajaxConfig: {
                     method: "POST",
                     headers: {
@@ -195,7 +195,7 @@
             btnEdit.click(function (e) {
                 e.preventDefault();
                 let id = listTable.getSelectedData()[0].id;
-                window.location = '{{ url('dashboard/transaksi/kelas/detail') }}/'+id;
+                window.location = '{{ url('dashboard/transaksi/extrakurikuler/edit') }}/'+id;
             });
 
             // btnDisable.click(function (e) {

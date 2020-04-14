@@ -14,8 +14,8 @@
                                 <div class="col-sm-12 col-md-6 col-lg-2 col-xl-2">
                                     <div class="form-group">
                                         <select class="form-control" id="fKolom">
-                                            <option value="kode_ta">Kode TA</option>
-                                            <option value="kode_kelas">Kelas</option>
+                                            <option value="kode_siswa">Kode Siswa</option>
+                                            <option value="nama">Nama</option>
                                         </select>
                                     </div>
                                 </div>
@@ -54,7 +54,7 @@
                             </div> -->
                             <div class="col-sm-12 col-lg-2 mt-2 mt-lg-0">
                                 <button type="button" id="btnEdit" class="btn btn-block btn-danger" disabled>
-                                    <i class="fas fa-pencil-alt mr-2"></i>Detail
+                                    <i class="fas fa-pencil-alt mr-2"></i>Edit
                                 </button>
                             </div>
                         </div>
@@ -78,7 +78,7 @@
             }).then((result) => {
                 if (result.value) {
                     $.ajax({
-                        url: '{{ url('dashboard/transaksi/kelas') }}/'+status,
+                        url: '{{ url('dashboard/master/siswa') }}/'+status,
                         method: 'post',
                         data: data,
                         success: function (response) {
@@ -129,7 +129,7 @@
                 placeholder: 'No Data Available',
                 pagination: "remote",
                 ajaxFiltering: true,
-                ajaxURL: "{{ url('dashboard/transaksi/kelas/data') }}",
+                ajaxURL: "{{ url('dashboard/master/siswa/data') }}",
                 ajaxConfig: {
                     method: "POST",
                     headers: {
@@ -157,10 +157,12 @@
                     //         }
                     //     }
                     // },
-                    {title:"Kode TA",field:"kode_ta"},
-                    {title:"Kode Kelas",field:"kode_kelas"},
-                    {title:"Periode",field:"periode"},
-                    {title:"Ket",field:"ket"},
+                    {title:"Kode Siswa",field:"kode_siswa"},
+                    {title:"Nama",field:"nama"},
+                    {title:"Alamat",field:"alamat"},
+                    {title:"Tahun Masuk",field:"tahun_masuk"},
+                    {title:"Nama Ayah",field:"nama_ayah"},
+                    {title:"Nama Ibu",field:"nama_ibu"},
                 ],
                 rowSelectionChanged:function (data,rows) {
                     if (data.length === 1) {
@@ -195,7 +197,7 @@
             btnEdit.click(function (e) {
                 e.preventDefault();
                 let id = listTable.getSelectedData()[0].id;
-                window.location = '{{ url('dashboard/transaksi/kelas/detail') }}/'+id;
+                window.location = '{{ url('dashboard/master/siswa/edit') }}/'+id;
             });
 
             // btnDisable.click(function (e) {
