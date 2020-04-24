@@ -56,28 +56,32 @@ class c_MasterKelas extends Controller
   $spp     = $request->spp;
   $mc      = $request->mc;
   $ket     = $request->ket;
+  $date    = date('Y-m-d H:i:s');
 
   try {
    DB::beginTransaction();
    if ($type == 'baru') {
-    $master_kelas          = new master_kelas();
-    $master_kelas->kelas   = $kelas;
-    $master_kelas->nama    = $nama;
-    $master_kelas->adm_fee = $adm_fee;
-    $master_kelas->spp     = $spp;
-    $master_kelas->mc      = $mc;
-    $master_kelas->ket     = $ket;
+    $master_kelas             = new master_kelas();
+    $master_kelas->kelas      = $kelas;
+    $master_kelas->nama       = $nama;
+    $master_kelas->adm_fee    = $adm_fee;
+    $master_kelas->spp        = $spp;
+    $master_kelas->mc         = $mc;
+    $master_kelas->ket        = $ket;
+    $master_kelas->created_at = $date;
+    $master_kelas->updated_at = $date;
     $master_kelas->save();
    } elseif ($type == 'edit') {
     DB::table('master_kelas')
      ->where('id', '=', $request->id)
      ->update([
-      'kelas'   => $kelas,
-      'nama'    => $nama,
-      'adm_fee' => $adm_fee,
-      'spp'     => $spp,
-      'mc'      => $mc,
-      'ket'     => $ket,
+      'kelas'      => $kelas,
+      'nama'       => $nama,
+      'adm_fee'    => $adm_fee,
+      'spp'        => $spp,
+      'mc'         => $mc,
+      'ket'        => $ket,
+      'updated_at' => $date,
      ]);
    }
    DB::commit();

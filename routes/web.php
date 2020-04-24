@@ -72,6 +72,8 @@ Route::middleware(['check.login'])->group(function () {
  Route::get('thnajaran', 'c_Dashboard@thnajaran');
  Route::get('thnajaran/{id}', 'c_Dashboard@thnajaranID');
  Route::get('csrf', 'c_Dashboard@csrf');
+ Route::get('supplier', 'c_Dashboard@supplier');
+ Route::get('seragam', 'c_Dashboard@seragam');
 
  Route::get('/', function () {
   return redirect('dashboard');
@@ -196,7 +198,8 @@ Route::middleware(['check.login'])->group(function () {
   Route::post('dashboard/transaksi/purchaseorder/disable', 'c_TransPO@disable');
   Route::post('dashboard/transaksi/purchaseorder/activate', 'c_TransPO@activate');
 
-  Route::get('dashboard/transaksi/receiving', 'c_TransReceiving@index');
+  Route::get('dashboard/transaksi/receiving', 'c_TransPO@list');
+  Route::get('dashboard/transaksi/receiving/supply/{id}', 'c_TransReceiving@new');
   Route::get('dashboard/transaksi/receiving/list', 'c_TransReceiving@list');
   Route::post('dashboard/transaksi/receiving/data', 'c_TransReceiving@data');
   Route::get('dashboard/transaksi/receiving/edit/{id}', 'c_TransReceiving@edit');

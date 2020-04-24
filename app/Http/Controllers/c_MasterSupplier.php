@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\master_supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class c_MasterSupplier extends Controller
 {
@@ -28,8 +30,8 @@ class c_MasterSupplier extends Controller
     ];
    }
   }
-  return DB::table('master_siswa')
-   ->select('id', 'kode_siswa', 'nama', 'alamat', 'tahun_masuk', 'nama_ayah', 'nama_ibu')
+  return DB::table('master_supplier')
+   ->select('id', 'nama', 'alamat', 'kota', 'telp', 'status')
   // ->join('ms_koridor','ms_bus.id_koridor','=','ms_koridor.id')
    ->where($data['where'])
    ->paginate(8);
@@ -37,70 +39,44 @@ class c_MasterSupplier extends Controller
 
  public function edit($id)
  {
-  $data = DB::table('master_siswa')
-   ->select('id', 'kode_siswa', 'nama', 'alamat', 'tahun_masuk', 'jenis_kelamin', 'tempat_lahir', 'tgl_lahir', 'agama', 'foto', 'nama_ayah', 'nama_ibu', 'pekerjaan_ayah', 'pekerjaan_ibu', 'email_ortu', 'nohp')
+  $data = DB::table('master_supplier')
+   ->select('id', 'nama', 'alamat', 'kota', 'telp', 'status')
   // ->join('ms_koridor','ms_bus.id_koridor','=','ms_koridor.id')
-   ->where('master_siswa.id', '=', $id)
+   ->where('master_supplier.id', '=', $id)
    ->first();
   return view('dashboard.master-data.supplier.edit')->with('data', $data);
  }
 
  public function submit(Request $request)
  {
-  $type           = $request->type;
-  $kode_siswa     = $request->kode_siswa;
-  $nama           = $request->nama;
-  $alamat         = $request->alamat;
-  $tahun_masuk    = $request->tahun_masuk;
-  $jenkel         = $request->jenkel;
-  $tempat_lahir   = $request->tempat_lahir;
-  $tgl_lahir      = date('Y-m-d', strtotime($request->tgl_lahir));
-  $agama          = $request->agama;
-  $nama_ayah      = $request->nama_ayah;
-  $nama_ibu       = $request->nama_ibu;
-  $pekerjaan_ayah = $request->pekerjaan_ayah;
-  $pekerjaan_ibu  = $request->pekerjaan_ibu;
-  $email          = $request->email;
-  $no_hp          = $request->no_hp;
+  $type   = $request->type;
+  $nama   = $request->nama;
+  $alamat = $request->alamat;
+  $kota   = $request->kota;
+  $telp   = $request->telp;
+  $date   = date('Y-m-d H:i:s');
 
   try {
    DB::beginTransaction();
    if ($type == 'baru') {
-    $master_siswa                 = new master_siswa();
-    $master_siswa->kode_siswa     = $kode_siswa;
-    $master_siswa->nama           = $nama;
-    $master_siswa->alamat         = $alamat;
-    $master_siswa->tahun_masuk    = $tahun_masuk;
-    $master_siswa->jenis_kelamin  = $jenkel;
-    $master_siswa->tempat_lahir   = $tempat_lahir;
-    $master_siswa->tgl_lahir      = $tgl_lahir;
-    $master_siswa->agama          = $agama;
-    $master_siswa->nama_ayah      = $nama_ayah;
-    $master_siswa->nama_ibu       = $nama_ibu;
-    $master_siswa->pekerjaan_ayah = $pekerjaan_ayah;
-    $master_siswa->pekerjaan_ibu  = $pekerjaan_ibu;
-    $master_siswa->email_ortu     = $email;
-    $master_siswa->nohp           = $no_hp;
-    $master_siswa->save();
+    $master_supplier             = new master_supplier();
+    $master_supplier->nama       = $nama;
+    $master_supplier->alamat     = $alamat;
+    $master_supplier->kota       = $kota;
+    $master_supplier->telp       = $telp;
+    $master_supplier->status     = '0';
+    $master_supplier->created_at = $date;
+    $master_supplier->updated_at = $date;
+    $master_supplier->save();
    } elseif ($type == 'edit') {
-    DB::table('master_siswa')
+    DB::table('master_supplier')
      ->where('id', '=', $request->id)
      ->update([
-      'kode_siswa'     => $kode_siswa,
-      'nama'           => $nama,
-      'alamat'         => $alamat,
-      'tahun_masuk'    => $tahun_masuk,
-      'jenis_kelamin'  => $jenkel,
-      'tempat_lahir'   => $tempat_lahir,
-      'tgl_lahir'      => $tgl_lahir,
-      'agama'          => $agama,
-      'nama_ayah'      => $nama_ayah,
-      'nama_ibu'       => $nama_ibu,
-      'pekerjaan_ayah' => $pekerjaan_ayah,
-      'pekerjaan_ibu'  => $pekerjaan_ibu,
-      'email_ortu'     => $email,
-      'nohp'           => $no_hp,
-
+      'nama'       => $nama,
+      'alamat'     => $alamat,
+      'kota'       => $kota,
+      'telp'       => $telp,
+      'updated_at' => $date,
      ]);
    }
    DB::commit();
@@ -108,6 +84,39 @@ class c_MasterSupplier extends Controller
   } catch (\Exception $ex) {
    DB::rollBack();
    return response()->json($ex);
+  }
+ }
+ public function disable(Request $request)
+ {
+  $id = $request->id;
+  try {
+   DB::beginTransaction();
+   DB::table('master_supplier')->where('id', '=', $id)
+    ->update([
+     'status' => 0,
+    ]);
+   DB::commit();
+   return 'success';
+  } catch (\Exception $ex) {
+   DB::rollBack();
+   return json_encode([$ex]);
+  }
+ }
+
+ public function activate(Request $request)
+ {
+  $id = $request->id;
+  try {
+   DB::beginTransaction();
+   DB::table('master_supplier')->where('id', '=', $id)
+    ->update([
+     'status' => 1,
+    ]);
+   DB::commit();
+   return 'success';
+  } catch (\Exception $ex) {
+   DB::rollBack();
+   return json_encode([$ex]);
   }
  }
 }

@@ -54,24 +54,28 @@ class c_MasterExtra extends Controller
   $tipe  = $request->tipe;
   $biaya = $request->biaya;
   $ket   = $request->ket;
+  $date  = date('Y-m-d H:i:s');
 
   try {
    DB::beginTransaction();
    if ($type == 'baru') {
-    $master_extrakurikuler        = new master_extrakurikuler();
-    $master_extrakurikuler->nama  = $nama;
-    $master_extrakurikuler->tipe  = $tipe;
-    $master_extrakurikuler->biaya = $biaya;
-    $master_extrakurikuler->ket   = $ket;
+    $master_extrakurikuler             = new master_extrakurikuler();
+    $master_extrakurikuler->nama       = $nama;
+    $master_extrakurikuler->tipe       = $tipe;
+    $master_extrakurikuler->biaya      = $biaya;
+    $master_extrakurikuler->ket        = $ket;
+    $master_extrakurikuler->created_at = $date;
+    $master_extrakurikuler->updated_at = $date;
     $master_extrakurikuler->save();
    } elseif ($type == 'edit') {
     DB::table('master_extrakurikuler')
      ->where('id', '=', $request->id)
      ->update([
-      'nama'  => $nama,
-      'tipe'  => $tipe,
-      'biaya' => $biaya,
-      'ket'   => $ket,
+      'nama'       => $nama,
+      'tipe'       => $tipe,
+      'biaya'      => $biaya,
+      'ket'        => $ket,
+      'updated_at' => $date,
      ]);
    }
    DB::commit();

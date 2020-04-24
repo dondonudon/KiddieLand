@@ -17,12 +17,14 @@ class c_Dashboard extends Controller
    $group = DB::table('sys_menus')
     ->select('sys_menu_groups.id', 'sys_menu_groups.name', 'sys_menu_groups.segment_name', 'sys_menu_groups.icon', 'sys_menu_groups.ord', 'sys_menu_groups.status', 'sys_menu_groups.created_at', 'sys_menu_groups.updated_at')
     ->join('sys_menu_groups', 'sys_menus.id_group', '=', 'sys_menu_groups.id')
+    ->where('sys_menus.status', '<>', '1') //temp
     ->orderBy('sys_menu_groups.ord', 'asc')
     ->distinct()
     ->get();
 
    $dtMenu = DB::table('sys_menus')
     ->select('sys_menus.id', 'sys_menus.id_group', 'sys_menus.name', 'sys_menus.segment_name', 'sys_menus.url', 'sys_menus.ord', 'sys_menus.status', 'sys_menus.created_at', 'sys_menus.updated_at')
+    ->where('sys_menus.status', '<>', '1') //temp
     ->orderBy('sys_menus.ord', 'asc')
     ->get();
 
@@ -207,5 +209,47 @@ class c_Dashboard extends Controller
     ->get();
   }
   return $siswa;
+ }
+
+ public function seragam(Request $request)
+ {
+  $seragam = [];
+  if (isset($_GET['search'])) {
+   $seragam['results'] = DB::table('master_seragam')
+    ->select('kode as id', 'nama as text', DB::raw('IFNULL(stock, 0) as stock'), 'harga_jual')
+    ->where('kode', 'like', '%' . $_GET['search'] . '%')
+   // ->where('status', '=', '1')
+    ->orderBy('kode', 'asc')
+    ->get();
+  } else {
+   $seragam['results'] = DB::table('master_seragam')
+    ->select('kode as id', 'nama as text', DB::raw('IFNULL(stock, 0) as stock'), 'harga_jual')
+   // ->where('status', '=', '1')
+    ->orderBy('kode', 'asc')
+    ->limit(10)
+    ->get();
+  }
+  return $seragam;
+ }
+
+ public function supplier(Request $request)
+ {
+  $supplier = [];
+  if (isset($_GET['search'])) {
+   $supplier['results'] = DB::table('master_supplier')
+    ->select('id as id', 'nama as text')
+    ->where('id', 'like', '%' . $_GET['search'] . '%')
+   // ->where('status', '=', '1')
+    ->orderBy('id', 'asc')
+    ->get();
+  } else {
+   $supplier['results'] = DB::table('master_supplier')
+    ->select('id as id', 'nama as text')
+   // ->where('status', '=', '1')
+    ->orderBy('id', 'asc')
+    ->limit(10)
+    ->get();
+  }
+  return $supplier;
  }
 }

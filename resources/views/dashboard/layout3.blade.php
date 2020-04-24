@@ -17,7 +17,7 @@
     <div id="app">
         <div class="main-wrapper">
             <div class="navbar-bg"></div>
-            @include('dashboard._partials.navbar2')
+            @include('dashboard._partials.navbar3')
             @include('dashboard._partials.sidebar')
 
             <!-- Main Content -->

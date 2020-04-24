@@ -1,48 +1,49 @@
 @extends('dashboard.layout')
 
 @section('content')
-    <div class="section-body">
-        <div class="row">
-            <div class="col-12 col-md-6 col-lg-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Daftar {{ ucfirst(request()->segment(3)) }}</h4>
-                    </div>
-                    <div class="card-body pt-0 pb-0">
-                        <form id="formFilter">
-                            <div class="row justify-content-end">
-                                <div class="col-sm-12 col-md-6 col-lg-2 col-xl-2">
-                                    <div class="form-group">
-                                        <select class="form-control" id="fKolom">
-                                            <option value="kode_ta">Kode TA</option>
-                                            <option value="kode_kelas">Kelas</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12 col-md-6 col-lg-3 col-xl-3">
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text">
-                                                    <i class="fas fa-search"></i>
-                                                </div>
-                                            </div>
-                                            <input type="text" class="form-control phone-number" id="fValue">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12 col-md-6 col-lg-2 col-xl-2">
-                                    <button type="button" class="btn btn-warning btn-block" id="btnClearFilter">CLEAR Filter</button>
+<div class="section-body">
+    <div class="row">
+        <div class="col-12 col-md-6 col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Daftar {{ ucfirst(request()->segment(3)) }}</h4>
+                </div>
+                <div class="card-body pt-0 pb-0">
+                    <form id="formFilter">
+                        <div class="row justify-content-end">
+                            <div class="col-sm-12 col-md-6 col-lg-2 col-xl-2">
+                                <div class="form-group">
+                                    <select class="form-control" id="fKolom">
+                                        <option value="no_receiving">Kode Receiving</option>
+                                        <option value="no_po">No PO</option>
+                                    </select>
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="thead-dark table-sm table-striped" id="listTable" style="width: 100%"></div>
-                    </div>
-                    <div class="card-footer bg-whitesmoke">
-                        <div class="row justify-content-end">
-                            <!-- <div class="col-sm-12 col-lg-3 mt-2 mt-lg-0">
+                            <div class="col-sm-12 col-md-6 col-lg-3 col-xl-3">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fas fa-search"></i>
+                                            </div>
+                                        </div>
+                                        <input type="text" class="form-control phone-number" id="fValue">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-2 col-xl-2">
+                                <button type="button" class="btn btn-warning btn-block" id="btnClearFilter">CLEAR
+                                    Filter</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-body p-0">
+                    <div class="thead-dark table-sm table-striped" id="listTable" style="width: 100%"></div>
+                </div>
+                <div class="card-footer bg-whitesmoke">
+                    <div class="row justify-content-end">
+                        <!-- <div class="col-sm-12 col-lg-3 mt-2 mt-lg-0">
                                 <div class="btn-group btn-block mb-3" role="group" aria-label="Basic example">
                                     <button type="button" id="btnDisable" class="btn btn-danger disabled">
                                         <i class="fas fa-times mr-2"></i>Disable
@@ -52,22 +53,22 @@
                                     </button>
                                 </div>
                             </div> -->
-                            <div class="col-sm-12 col-lg-2 mt-2 mt-lg-0">
-                                <button type="button" id="btnEdit" class="btn btn-block btn-danger" disabled>
-                                    <i class="fas fa-pencil-alt mr-2"></i>Detail
-                                </button>
-                            </div>
-                        </div>
+                        {{-- <div class="col-sm-12 col-lg-2 mt-2 mt-lg-0">
+                            <button type="button" id="btnEdit" class="btn btn-block btn-danger" disabled>
+                                <i class="fas fa-pencil-alt mr-2"></i>Detail
+                            </button>
+                        </div> --}}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 @endsection
 
 @section('script')
-    <script type="text/javascript">
-        function changeStatus(data,status,question,commit,successResponse,failedResponse,table) {
+<script type="text/javascript">
+    function changeStatus(data,status,question,commit,successResponse,failedResponse,table) {
             Swal.fire({
                 title: question,
                 icon: 'warning',
@@ -129,7 +130,7 @@
                 placeholder: 'No Data Available',
                 pagination: "remote",
                 ajaxFiltering: true,
-                ajaxURL: "{{ url('dashboard/transaksi/kelas/data') }}",
+                ajaxURL: "{{ url('dashboard/transaksi/receiving/data') }}",
                 ajaxConfig: {
                     method: "POST",
                     headers: {
@@ -157,10 +158,9 @@
                     //         }
                     //     }
                     // },
-                    {title:"Kode TA",field:"kode_ta"},
-                    {title:"Kode Kelas",field:"kode_kelas"},
-                    {title:"Periode",field:"periode"},
-                    {title:"Ket",field:"ket"},
+                    {title:"No Receiving",field:"no_receiving"},
+                    {title:"No PO",field:"no_po"},
+
                 ],
                 rowSelectionChanged:function (data,rows) {
                     if (data.length === 1) {
@@ -226,5 +226,5 @@
             //     );
             // });
         });
-    </script>
+</script>
 @endsection
