@@ -50,17 +50,17 @@ class c_TransReceiving extends Controller
    ->where('po_mst.no_po', '=', $id)
    ->get();
 
-  $c = DB::table('receiving_trn')
-   ->select('receiving_trn.kode_seragam', 'receiving_trn.qty', DB::raw('SUM(receiving_trn.qty_supply) as qty_supply'))
-   ->join('receiving_mst', 'receiving_mst.no_receiving', '=', 'receiving_trn.no_receiving')
-   ->where('receiving_mst.no_po', '=', $id)
-   ->groupBy('kode_seragam', 'receiving_trn.qty_supply')
-   ->get();
+  // $c = DB::table('receiving_trn')
+  //  ->select('receiving_trn.kode_seragam', 'receiving_trn.qty', DB::raw('SUM(receiving_trn.qty_supply) as qty_supply'))
+  //  ->join('receiving_mst', 'receiving_mst.no_receiving', '=', 'receiving_trn.no_receiving')
+  //  ->where('receiving_mst.no_po', '=', $id)
+  //  ->groupBy('kode_seragam', 'receiving_trn.qty_supply')
+  //  ->get();
 
   $data = [
    'mst' => $a,
    'trn' => $b,
-   'cek' => $c,
+  //  'cek' => $c,
   ];
 
   return view('dashboard.transaksi.receiving.baru')->with($data);

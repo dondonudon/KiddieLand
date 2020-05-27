@@ -40,8 +40,7 @@
                                             <th>Harga</th>
                                         </thead>
                                         <input type="text" name="no_po" value="{{$mst->no_po}}" readonly>
-                                        {{dd($cek)}}
-                                        {{-- {{$mst->no_po}} --}}
+                                        
                                         <tbody>
                                             <?php $i = 1; ?>
                                             @foreach ($trn as $item)
